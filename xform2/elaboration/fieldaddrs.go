@@ -1,6 +1,7 @@
 package elaboration
 
 import (
+	"fmt"
 	"go/types"
 
 	"github.com/rj45/nanogo/ir2"
@@ -35,6 +36,7 @@ func fieldAddrs(it ir2.Iter) {
 		// would just be adding zero, so this instruction can just be removed
 		instr.Def(0).ReplaceUsesWith(instr.Arg(1))
 		it.Remove()
+		fmt.Println("debug: fieldAddrs")
 		return
 	}
 

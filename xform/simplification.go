@@ -1,6 +1,7 @@
 package xform
 
 import (
+	"fmt"
 	"go/constant"
 
 	"github.com/rj45/nanogo/ir"
@@ -43,6 +44,8 @@ func mulByConst(val *ir.Value) int {
 
 	val.Op = op.ShiftLeft
 	val.ReplaceArg(1, val.Func().Const(val.Arg(1).Type, constant.MakeInt64(n)))
+
+	fmt.Println("debug: mulByConst")
 
 	return 1
 }

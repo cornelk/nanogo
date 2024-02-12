@@ -1,6 +1,7 @@
 package xform
 
 import (
+	"fmt"
 	"github.com/rj45/nanogo/ir"
 	"github.com/rj45/nanogo/ir/op"
 )
@@ -37,6 +38,7 @@ func deCopy(val *ir.Value) int {
 
 	if val.Reg == val.Arg(0).Reg {
 		val.ReplaceWith(val.Arg(0))
+		fmt.Println("debug: deCopy")
 		return 1
 	}
 
@@ -52,6 +54,7 @@ retry:
 		for i, blk := range blks {
 			if blk.NumInstrs() == 0 && blk.Op == op.Jump && blk.NumPreds() == 1 && blk.NumSuccs() == 1 {
 				fn.RemoveBlock(i)
+				fmt.Println("debug: EliminateEmptyBlocks")
 				continue retry
 			}
 		}

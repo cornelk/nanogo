@@ -1,6 +1,7 @@
 package elaboration
 
 import (
+	"fmt"
 	"go/types"
 	"log"
 
@@ -31,4 +32,5 @@ func ifNonCompare(it ir2.Iter) {
 	compare := it.Insert(op.Equal, arg.Type, arg, true)
 	instr.ReplaceArg(0, compare.Def(0))
 	it.Changed()
+	fmt.Println("debug: ifNonCompare")
 }

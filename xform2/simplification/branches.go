@@ -1,6 +1,7 @@
 package simplification
 
 import (
+	"fmt"
 	"github.com/rj45/nanogo/ir2"
 	"github.com/rj45/nanogo/ir2/op"
 	"github.com/rj45/nanogo/xform2"
@@ -27,6 +28,7 @@ func swapIfBranches(it ir2.Iter) {
 				instr.ReplaceArg(0, not.Def(0))
 			}
 
+			fmt.Println("debug: swapIfBranches")
 			instr.Block().SwapSuccs()
 		} else {
 			panic("not able to legalize branch")

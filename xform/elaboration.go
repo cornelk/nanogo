@@ -26,6 +26,7 @@ func calls(val *ir.Value) int {
 		val.Reg = reg.ArgRegs[0]
 		copy := val.Block().InsertCopy(val.Index()+1, val, reg.None)
 		val.ReplaceOtherUsesWith(copy)
+		fmt.Println("debug: calls 1")
 	} else if fnType.Results().Len() > 1 {
 		if fnType.Results().Len() > len(reg.ArgRegs) {
 			log.Panicln("greater than", len(reg.ArgRegs), "returned values not supported yet in function", val.Arg(0))
@@ -40,6 +41,7 @@ func calls(val *ir.Value) int {
 			ext.Reg = reg.ArgRegs[num]
 			repl := ir.BuildAfter(ext).Op(op.Copy, ext.Type, ext).PrevVal()
 			ext.ReplaceOtherUsesWith(repl)
+			fmt.Println("debug: calls 2")
 		}
 	}
 
@@ -403,6 +405,8 @@ func fixupConverts(val *ir.Value) int {
 
 	val.ReplaceWith(val.Arg(0))
 
+	fmt.Println("debug: fixupConverts")
+
 	return 1
 }
 
@@ -426,6 +430,7 @@ func useParameterRegisters(val *ir.Value) int {
 		val.Op = op.Copy
 		val.InsertArg(-1, val.Func().FixedReg(reg.ArgRegs[index]))
 		val.Value = nil
+		fmt.Println("debug: useParameterRegisters")
 		return 1
 	}
 	// we don't know yet what the stack frame size will be
