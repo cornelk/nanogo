@@ -1,6 +1,7 @@
 package xform
 
 import (
+	"fmt"
 	"github.com/rj45/nanogo/ir"
 	"github.com/rj45/nanogo/ir/op"
 )
@@ -33,6 +34,8 @@ func addCopiesForArgClobbers(val *ir.Value) int {
 
 	val.Block().InsertInstr(val.Index(), copy)
 	val.ReplaceArg(0, copy)
+
+	fmt.Println("debug: addCopiesForArgClobbers")
 
 	return 1
 }
@@ -71,11 +74,14 @@ func reorderPhiCopies(val *ir.Value) int {
 				val.Op = op.SwapOut
 				val.ReplaceArg(0, swap)
 				val.InsertArg(-1, prev.Func().IntConst(1))
+
+				fmt.Println("debug: reorderPhiCopies 1")
 				return 1
 			}
 
 			// otherwise just swap the read and the write
 			blk.SwapInstr(val, prev)
+			fmt.Println("debug: reorderPhiCopies 2")
 			return 1
 		}
 	}

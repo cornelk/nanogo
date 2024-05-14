@@ -28,7 +28,7 @@ func swapIfBranches(it ir2.Iter) {
 				instr.ReplaceArg(0, not.Def(0))
 			}
 
-			fmt.Println("debug: swapIfBranches")
+			fmt.Println("debug2: swapIfBranches")
 			instr.Block().SwapSuccs()
 		} else {
 			panic("not able to legalize branch")

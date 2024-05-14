@@ -55,6 +55,7 @@ func calls(val *ir.Value) int {
 					val.ReplaceArg(i,
 						val.Block().InsertCopy(
 							val.Index(), val.Arg(i), reg.ArgRegs[index]))
+					fmt.Println("debug: calls 3")
 				}
 			} else {
 				index -= len(reg.ArgRegs)
@@ -76,6 +77,7 @@ func calls(val *ir.Value) int {
 
 					store := bd.Op(op.Store, arg.Type, reg.SP, offset, arg).PrevVal()
 					val.ReplaceArg(i, store)
+					fmt.Println("debug: calls 4")
 				}
 			}
 		}
@@ -181,6 +183,8 @@ func indexAddrs(val *ir.Value) int {
 	val.Op = op.Add
 	val.ReplaceArg(1, mulval)
 
+	fmt.Println("debug: indexAddrs")
+
 	return 1
 }
 
@@ -226,6 +230,7 @@ func index(val *ir.Value) int {
 	if indexArg.Op.IsConst() {
 		ir.BuildReplacement(val).
 			Op(op.Load, val.Type, address, indexArg)
+		fmt.Println("debug: index 1")
 		return 1
 	}
 
@@ -233,6 +238,8 @@ func index(val *ir.Value) int {
 
 	ir.BuildReplacement(val).
 		Op(op.Load, val.Type, bd.PrevVal(), 0)
+
+	fmt.Println("debug: index 2")
 
 	return 1
 }
@@ -276,6 +283,7 @@ func lookups(val *ir.Value) int {
 	if indexArg.Op.IsConst() {
 		ir.BuildReplacement(val).
 			Op(op.Load, val.Type, address, indexArg)
+		fmt.Println("debug: lookups 1")
 		return 1
 	}
 
@@ -284,6 +292,7 @@ func lookups(val *ir.Value) int {
 	ir.BuildReplacement(val).
 		Op(op.Load, val.Type, bd.PrevVal(), 0)
 
+	fmt.Println("debug: lookups 2")
 	return 1
 }
 
@@ -309,6 +318,8 @@ func fieldAddrs(val *ir.Value) int {
 	if offset == 0 {
 		// would just be adding zero, so this instruction can just be removed
 		val.ReplaceWith(val.Arg(0))
+
+		fmt.Println("debug: fieldAddrs 1")
 		return 1
 	}
 
@@ -316,6 +327,7 @@ func fieldAddrs(val *ir.Value) int {
 	val.Value = nil
 	val.InsertArg(-1, val.Func().Const(val.Type, constant.MakeInt64(offset)))
 
+	fmt.Println("debug: fieldAddrs 2")
 	return 1
 }
 
@@ -339,6 +351,7 @@ func gpAdjustLoadStores(val *ir.Value) int {
 		con := val.Arg(val.NumArgs() - 1)
 		cp := val.Block().InsertCopy(val.Index(), con, con.Reg)
 		val.ReplaceArg(val.NumArgs()-1, cp)
+		fmt.Println("debug: gpAdjustLoadStores 1")
 		return 1
 	}
 
@@ -346,6 +359,7 @@ func gpAdjustLoadStores(val *ir.Value) int {
 		arg := val.RemoveArg(0)
 		val.InsertArg(0, val.Func().FixedReg(reg.GP))
 		val.InsertArg(1, arg)
+		fmt.Println("debug: gpAdjustLoadStores 2")
 		return 1
 	}
 
@@ -381,10 +395,13 @@ func gpAdjustLoadStores(val *ir.Value) int {
 			}
 
 			user.ReplaceArg(user.ArgIndex(global), addGP)
+
+			fmt.Println("debug: gpAdjustLoadStores 3")
 			return 1
 		}
 	}
 
+	fmt.Println("debug: gpAdjustLoadStores 4")
 	return 1
 }
 
@@ -466,6 +483,8 @@ func allocIterators(val *ir.Value) int {
 		// insert the original string/slice as an argument to the next call
 		next.InsertArg(1, val.Arg(0))
 		nextFunc = next.Arg(0).Type
+
+		fmt.Println("debug: allocIterators 1")
 	}
 
 	sig := nextFunc.(*types.Signature)
@@ -481,6 +500,8 @@ func allocIterators(val *ir.Value) int {
 		Op(op.Store, itPtr, local, 0, ir.PrevBuildVal())
 
 	val.ReplaceWith(local)
+
+	fmt.Println("debug: allocIterators 2")
 
 	return 1
 }
@@ -559,6 +580,8 @@ func rollupCompareToBlockOp(val *ir.Value) int {
 		blk.Op = op.IfNotEqual
 	}
 
+	fmt.Println("debug: rollupCompareToBlockOp")
+
 	return 1
 }
 
@@ -575,6 +598,7 @@ func AddReturnMoves(fn *ir.Func) {
 		if ctrl.Reg != reg.ArgRegs[i] {
 			val := ir.BuildAt(blk, -1).Op(op.Copy, ctrl.Type, ctrl).PrevVal()
 			val.Reg = reg.ArgRegs[i]
+			fmt.Println("debug: AddReturnMoves")
 		}
 	}
 }

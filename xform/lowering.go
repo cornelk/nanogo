@@ -1,6 +1,7 @@
 package xform
 
 import (
+	"fmt"
 	"github.com/rj45/nanogo/ir"
 	"github.com/rj45/nanogo/ir/op"
 )
@@ -25,6 +26,7 @@ func AddPhiCopies(val *ir.Value) int {
 		pred.InsertInstr(-1, copy)
 		val.ReplaceArg(i, copy)
 		changes++
+		fmt.Println("debug: AddPhiCopies")
 	}
 
 	return changes

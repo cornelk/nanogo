@@ -1,6 +1,7 @@
 package cleanup
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/rj45/nanogo/ir/reg"
@@ -48,6 +49,7 @@ func sequentializeCopies(it ir2.Iter) {
 		cpdef.SetReg(def.Reg())
 		def.ReplaceUsesWith(cpdef)
 		copied = append(copied, [2]*ir2.Value{def, arg})
+		fmt.Println("debug2: sequentializeCopies")
 		it.Changed()
 	}
 

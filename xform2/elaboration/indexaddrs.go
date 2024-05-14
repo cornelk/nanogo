@@ -1,6 +1,7 @@
 package elaboration
 
 import (
+	"fmt"
 	"go/types"
 
 	"github.com/rj45/nanogo/ir2"
@@ -26,4 +27,5 @@ func indexAddrs(it ir2.Iter) {
 
 	instr.Op = op.Add
 	instr.ReplaceArg(1, mul.Def(0))
+	fmt.Println("debug2: indexAddrs")
 }

@@ -29,6 +29,7 @@ func mulByConst(val *ir.Value) int {
 
 	if amt == 0 {
 		val.ReplaceWith(val.Arg(1))
+		fmt.Println("debug: mulByConst 1")
 		return 1
 	}
 
@@ -45,7 +46,7 @@ func mulByConst(val *ir.Value) int {
 	val.Op = op.ShiftLeft
 	val.ReplaceArg(1, val.Func().Const(val.Arg(1).Type, constant.MakeInt64(n)))
 
-	fmt.Println("debug: mulByConst")
+	fmt.Println("debug: mulByConst 2")
 
 	return 1
 }

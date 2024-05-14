@@ -1,6 +1,7 @@
 package elaboration
 
 import (
+	"fmt"
 	"github.com/rj45/nanogo/ir/reg"
 	"github.com/rj45/nanogo/ir2"
 	"github.com/rj45/nanogo/ir2/op"
@@ -31,5 +32,6 @@ func returnCopy(it ir2.Iter) {
 			cp.Def(i).SetArgSlot(i - len(reg.ArgRegs))
 		}
 		ret.ReplaceArg(i, cp.Def(i))
+		fmt.Println("debug2: returnCopy")
 	}
 }

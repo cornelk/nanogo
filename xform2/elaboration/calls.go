@@ -1,6 +1,7 @@
 package elaboration
 
 import (
+	"fmt"
 	"go/types"
 
 	"github.com/rj45/nanogo/ir/reg"
@@ -45,6 +46,7 @@ func calls(it ir2.Iter) {
 				paramCopy.Def(i).SetArgSlot(i - len(reg.ArgRegs))
 			}
 			instr.ReplaceArg(i+1, paramCopy.Def(i))
+			fmt.Println("debug2: calls 1")
 		}
 	}
 
@@ -71,6 +73,7 @@ func calls(it ir2.Iter) {
 
 			// switch this back to what it was
 			resCopy.ReplaceArg(i, instr.Def(i))
+			fmt.Println("debug2: calls 2")
 		}
 	}
 }

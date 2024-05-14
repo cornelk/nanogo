@@ -36,9 +36,10 @@ func fieldAddrs(it ir2.Iter) {
 		// would just be adding zero, so this instruction can just be removed
 		instr.Def(0).ReplaceUsesWith(instr.Arg(1))
 		it.Remove()
-		fmt.Println("debug: fieldAddrs")
+		fmt.Println("debug2: fieldAddrs 1")
 		return
 	}
 
 	it.Update(op.Add, fieldPtr, instr.Arg(1), offset)
+	fmt.Println("debug2: fieldAddrs 2")
 }

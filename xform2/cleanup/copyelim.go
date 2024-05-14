@@ -1,6 +1,7 @@
 package cleanup
 
 import (
+	"fmt"
 	"github.com/rj45/nanogo/ir2"
 	"github.com/rj45/nanogo/ir2/op"
 	"github.com/rj45/nanogo/xform2"
@@ -27,6 +28,7 @@ func copyElim(it ir2.Iter) {
 			instr.RemoveDef(def)
 			i--
 			it.Changed()
+			fmt.Println("debug2: copyElim")
 		}
 	}
 

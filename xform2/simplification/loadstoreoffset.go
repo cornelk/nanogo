@@ -1,6 +1,7 @@
 package simplification
 
 import (
+	"fmt"
 	"go/types"
 
 	"github.com/rj45/nanogo/ir2"
@@ -48,6 +49,7 @@ func storeOffset(it ir2.Iter) {
 	add := offset(instr)
 	if add == nil {
 		instr.InsertArg(1, instr.Func().ValueFor(types.Typ[types.UntypedInt], 0))
+		fmt.Println("debug2: storeOffset 1")
 		return
 	}
 
@@ -55,6 +57,7 @@ func storeOffset(it ir2.Iter) {
 	instr.ReplaceArg(0, add.Arg(0))
 	instr.InsertArg(1, add.Arg(1))
 	it.RemoveInstr(add)
+	fmt.Println("debug2: storeOffset 2")
 }
 
 func offset(instr *ir2.Instr) *ir2.Instr {

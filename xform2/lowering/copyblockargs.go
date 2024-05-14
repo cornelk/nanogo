@@ -1,6 +1,7 @@
 package lowering
 
 import (
+	"fmt"
 	"github.com/rj45/nanogo/ir2"
 	"github.com/rj45/nanogo/ir2/op"
 	"github.com/rj45/nanogo/xform2"
@@ -55,5 +56,6 @@ func copyBlockArgs(it ir2.Iter) {
 
 		// replace the arg with the defined value
 		blk.ReplaceArg(a, def)
+		fmt.Println("debug2: copyBlockArgs")
 	}
 }

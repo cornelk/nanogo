@@ -1,6 +1,7 @@
 package legalization
 
 import (
+	"fmt"
 	"github.com/rj45/nanogo/ir2"
 	"github.com/rj45/nanogo/ir2/op"
 	"github.com/rj45/nanogo/xform2"
@@ -31,4 +32,5 @@ func addClobberCopies(it ir2.Iter) {
 
 	cp := it.Insert(op.Copy, instr.Arg(0).Type, instr.Arg(0))
 	instr.ReplaceArg(0, cp.Def(0))
+	fmt.Println("debug2: addClobberCopies")
 }
